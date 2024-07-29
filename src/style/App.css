@@ -1,0 +1,76 @@
+* {
+  font-family: "Poppins";
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #F1F5F9;
+}
+
+.container {
+max-width: 600px;
+margin: 200px auto;
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+transition: all .3s;
+}
+
+#push.active {
+cursor: pointer;
+background-color: #4caf50;
+}
+
+#push:hover.active{
+background-color: #45a049;
+}
+
+.task {
+background-color: #f9f9f9;
+padding: 10px;
+margin-top: 10px;
+border-radius: 4px;
+position: relative;
+cursor: pointer;
+}
+
+.bxs-trash {
+position: absolute;
+/* top: 50%; */
+right: 10px;
+padding: 5px;
+transform: translateY(-50%);
+background-color: #f44336;
+color: #fff;
+border: none;
+border-radius: 50%;
+cursor: pointer;
+transform: scale(1.4);
+transition: .2s ease;
+}
+
+.bxs-trash:hover {
+background-color: #ff6967;
+translate: 0 -2px;
+}
+
+.checkbox {
+  position: absolute;
+  margin: 2px 0 0 520px;
+}
+
+.inputField::placeholder {
+color: red;
+}
+
+.headerText {
+cursor: text;
+}
+
+.taskList {
+color: #333;
+font-size:30px;
+margin: 10px 0 -10px 0;
+}

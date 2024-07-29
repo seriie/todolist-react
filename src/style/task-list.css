@@ -1,0 +1,30 @@
+.checkbox {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    appearance: none;
+    margin-left: 20px;
+    cursor: pointer;
+    left: -15px;
+    top: -5px;
+    transform: scale(1.2);
+}
+  
+.checkbox::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #22C55E;
+  border-radius: 4px;
+  transition: .3s;
+}
+
+.checkbox:checked::before {
+  content: '\2713';
+  background-color: #22C55E;
+  color: #ffffff; 
+  font-size: 12px;
+  line-height: 19px; 
+  text-align: center; 
+}
