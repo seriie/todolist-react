@@ -134,7 +134,6 @@ function App() {
       opacity: 0,
     },
     slider: {
-      border: '2px solid rgb(255, 255, 255)',
       cursor: 'pointer',
       position: 'absolute',
       backgroundColor: '#fff',
@@ -147,7 +146,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className='App-header bg-slate-200 top-0 w-[100%] pt-10 pb-10 z-10 fixed'>
+      <div className='App-header transition-all duration-[300ms] bg-slate-200 top-0 w-[100%] pt-10 pb-10 z-10 fixed'>
         <div className='App-header-container flex items-center'>
           <TodoText />
           <CountText />
