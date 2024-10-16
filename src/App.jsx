@@ -188,7 +188,7 @@ function App() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/todos');
+        const response = await axios.get('https://my-todo-be.vercel.app/todos');
         const tasksFromServer = response.data;
         setTasks(tasksFromServer);
 
@@ -216,7 +216,7 @@ function App() {
 
   const addTask = async (taskText) => {
     try {
-      const response = await axios.post('http://localhost:9000/todos', { text: taskText });
+      const response = await axios.post('https://my-todo-be.vercel.app/todos', { text: taskText });
       const newTask = response.data;
       setTasks([...tasks, newTask]);
     } catch (error) {
@@ -226,7 +226,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:9000/todos/${id}`);
+      await axios.delete(`https://my-todo-be.vercel.app/todos/${id}`);
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -236,7 +236,7 @@ function App() {
   const deleteAllTasks = async () => {
     try {
       for (const task of tasks) {
-        await axios.delete(`http://localhost:9000/todos/${task.id}`);
+        await axios.delete(`https://my-todo-be.vercel.app/todos/${task.id}`);
       }
       setTasks([]);
     } catch (error) {
@@ -246,7 +246,7 @@ function App() {
 
   const toggleTask = async (id) => {
     try {
-      const response = await axios.put(`http://localhost:9000/todos/${id}/toggle`);
+      const response = await axios.put(`https://my-todo-be.vercel.app/todos/${id}/toggle`);
       const updatedTask = response.data;
       setTasks(tasks.map(task => task.id === id ? updatedTask : task));
     } catch (error) {
@@ -258,7 +258,7 @@ function App() {
     try {
       const updatedTasks = await Promise.all(tasks.map(task => {
         if (!task.completed) {
-          return axios.put(`http://localhost:9000/todos/${task.id}/toggle`);
+          return axios.put(`https://my-todo-be.vercel.app/todos/${task.id}/toggle`);
         }
         return task; // Kembalikan task yang sudah completed
       }));
@@ -272,7 +272,7 @@ function App() {
     try {
       const updatedTasks = await Promise.all(tasks.map(task => {
         if (task.completed) {
-          return axios.put(`http://localhost:9000/todos/${task.id}/toggle`);
+          return axios.put(`https://my-todo-be.vercel.app/todos/${task.id}/toggle`);
         }
         return task; // Kembalikan task yang belum completed
       }));
