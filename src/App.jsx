@@ -167,6 +167,7 @@ function App() {
   const [points, setPoints] = useState(0);
   const [level, setLevel] = useState(0);
   const [isAuth, setIsAuth] = useState(false); // Status autentikasi
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const loadFromLocalStorage = () => {
@@ -221,6 +222,7 @@ function App() {
       setTasks([...tasks, newTask]);
     } catch (error) {
       console.error('Error adding task:', error);
+      setError(error);
     }
   };
 
@@ -298,6 +300,7 @@ function App() {
               <div className='count flex-1 flex justify-center m-0 p-0 gap-5'>
                 <p className='text-slate-700 font-bold text-2xl hover:text-sky-300 transition-colors duration-300 ease-in'>Level: {level}</p>
                 <p className='text-slate-700 font-bold text-2xl hover:text-sky-300 transition-colors duration-300 ease-in'>Points: {points}</p>
+              {error ? <div className='text-red-500 absolute bottom-0'>Error adding task: {error.message}</div> : ''}
               </div>
               <div style={{ display: 'flex' }} className="theme-toggle ml-auto mr-[100px] relative -top-3">
                 <label style={{ display: 'flex', position: 'absolute', width: '44px', height: '24px' }} className="switch" title="Toggle themes">
