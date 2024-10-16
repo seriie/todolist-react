@@ -188,7 +188,7 @@ function App() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('https://my-todo-be.vercel.app/todos');
+        const response = await axios.get('http://localhost:9000/todos');
         const tasksFromServer = response.data;
         setTasks(tasksFromServer);
 
@@ -203,7 +203,7 @@ function App() {
     };
 
     fetchTasks();
-  }, []);
+  });
 
   const toggleTheme = () => {
     const newIsDarkMode = !isDarkMode;
@@ -216,7 +216,7 @@ function App() {
 
   const addTask = async (taskText) => {
     try {
-      const response = await axios.post('https://my-todo-be.vercel.app/todos', { text: taskText });
+      const response = await axios.post('http://localhost:9000/todos', { text: taskText });
       const newTask = response.data;
       setTasks([...tasks, newTask]);
     } catch (error) {
@@ -226,7 +226,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`https://my-todo-be.vercel.app/todos/${id}`);
+      await axios.delete(`http://localhost:9000/todos/${id}`);
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -236,7 +236,7 @@ function App() {
   const deleteAllTasks = async () => {
     try {
       for (const task of tasks) {
-        await axios.delete(`https://my-todo-be.vercel.app/todos/${task.id}`);
+        await axios.delete(`http://localhost:9000/todos/${task.id}`);
       }
       setTasks([]);
     } catch (error) {
@@ -246,11 +246,39 @@ function App() {
 
   const toggleTask = async (id) => {
     try {
-      const response = await axios.put(`https://my-todo-be.vercel.app/todos/${id}/toggle`);
+      const response = await axios.put(`http://localhost:9000/todos/${id}/toggle`);
       const updatedTask = response.data;
       setTasks(tasks.map(task => task.id === id ? updatedTask : task));
     } catch (error) {
       console.error('Error toggling task:', error);
+    }
+  };
+
+  const completeAllTasks = async () => {
+    try {
+      const updatedTasks = await Promise.all(tasks.map(task => {
+        if (!task.completed) {
+          return axios.put(`http://localhost:9000/todos/${task.id}/toggle`);
+        }
+        return task; // Kembalikan task yang sudah completed
+      }));
+      setTasks(updatedTasks.map(res => res.data));
+    } catch (error) {
+      console.error('Error completing all tasks:', error);
+    }
+  };
+  
+  const discompleteAllTasks = async () => {
+    try {
+      const updatedTasks = await Promise.all(tasks.map(task => {
+        if (task.completed) {
+          return axios.put(`http://localhost:9000/todos/${task.id}/toggle`);
+        }
+        return task; // Kembalikan task yang belum completed
+      }));
+      setTasks(updatedTasks.map(res => res.data));
+    } catch (error) {
+      console.error('Error discompleting all tasks:', error);
     }
   };
 
@@ -273,9 +301,9 @@ function App() {
               </div>
               <div style={{ display: 'flex' }} className="theme-toggle ml-auto mr-[100px] relative -top-3">
                 <label style={{ display: 'flex', position: 'absolute', width: '44px', height: '24px' }} className="switch" title="Toggle themes">
-                  <input 
-                    style={{ opacity: 0 }} 
-                    type="checkbox" 
+                  <input
+                    style={{ opacity: 0 }}
+                    type="checkbox"
                     ref={checkboxRef}
                     onChange={toggleTheme}
                   />
@@ -290,6 +318,8 @@ function App() {
             deleteTask={deleteTask}
             deleteAllTasks={deleteAllTasks}
             toggleTask={toggleTask}
+            completeAllTasks={completeAllTasks}
+            discompleteAllTasks={discompleteAllTasks}
           />
         </div>
       )}

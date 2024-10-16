@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style/task-list.css';
 
-const TaskList = ({ tasks, addTask, deleteTask, deleteAllTasks, toggleTask }) => {
+const TaskList = ({ tasks, addTask, deleteTask, deleteAllTasks, toggleTask, completeAllTasks, discompleteAllTasks }) => {
   const [newTask, setNewTask] = useState('');
 
   const handleAddTask = () => {
@@ -16,6 +16,17 @@ const TaskList = ({ tasks, addTask, deleteTask, deleteAllTasks, toggleTask }) =>
       handleAddTask();
     }
   };
+
+  const allTaskAreCompleted = tasks.every(task => task.completed);
+
+  const completeAllTask = () => {
+    completeAllTasks(); // Panggil fungsi di App.jsx
+  }
+  
+  const discompletedAllTask = () => {
+    discompleteAllTasks(); // Panggil fungsi di App.jsx
+  }
+  
 
   const pendingTasksCount = tasks.filter(task => !task.completed).length;
 
@@ -34,7 +45,10 @@ const TaskList = ({ tasks, addTask, deleteTask, deleteAllTasks, toggleTask }) =>
         <button onClick={handleAddTask} className='focus:outline-slate-100 py-[11px] px-[20px] bg-green-400 rounded-[4px] text-slate-900'>Add</button>
       </div>
       <div id="wrapping-tasks">
-        <h1 className="task-list text-slate-100 font-bold text-3xl mt-5">Task List</h1>
+        <div className='task-text-and-complete-all flex justify-between items-center'>
+          <h1 className="task-list text-slate-100 font-bold text-3xl mt-5">Task List</h1>
+          <div className={`complete-all px-[16px] py-[12px] rounded-md font-bold cursor-pointer text-slate-50 ${allTaskAreCompleted? 'bg-red-500 hover:bg-red-600' : 'bg-sky-500 hover:bg-sky-600'}`} onClick={allTaskAreCompleted ? discompletedAllTask : completeAllTask}>{allTaskAreCompleted ? 'Discomplete All' : 'Completed All'}</div>
+        </div>
         <hr className='border-t-2 border-stone-400 mt-1 mb-5'/>
         <ul className="tasks list-none p-0">
           {tasks.map((task, index) => (
